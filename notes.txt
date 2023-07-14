@@ -1,0 +1,35 @@
+// Set up the slider camera
+const sliderSize = 2; // Adjust this value to control the size of the slider
+const aspectRatio = window.innerWidth / window.innerHeight;
+const sliderCamera = new THREE.OrthographicCamera(
+  -sliderSize * aspectRatio,
+  sliderSize * aspectRatio,
+  sliderSize,
+  -sliderSize,
+  1,
+  1000
+);
+sliderCamera.position.z = 5;
+
+// In render
+
+  //prevent canvas from being erased with next .render call
+  renderer.autoClear = false;
+
+  // Update slider scene
+  //renderer.clearDepth(); in case of clipping between viewports
+  renderer.setViewport(0, -window.innerHeight*.1, window.innerWidth*.5, window.innerHeight*.5);
+  renderer.render(sliderScene, sliderCamera);
+
+// Update granularity
+onmousedown = (event) => {
+  return
+  if (event.button == 0) {
+    scene.remove(plane);
+    planeSplitIdx += 1;
+    geometry = new THREE.PlaneGeometry(10, 10, 
+      planeSplits[planeSplitIdx%planeSplits.length], planeSplits[planeSplitIdx%planeSplits.length]);
+    plane = new THREE.Mesh( geometry, material );
+    scene.add(plane);
+  }
+};
