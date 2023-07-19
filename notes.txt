@@ -35,5 +35,5 @@ onmousedown = (event) => {
 };
 
 //browserify commands: orig -> target lets us mix different js library specs + bundle
-npx browserify -p esmify main2.js -o bundle.js
-
+npx browserify -p esmify main.js -o bundle.js
+python -m http.server

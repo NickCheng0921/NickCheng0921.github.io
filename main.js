@@ -56,7 +56,7 @@ var heightMapTexture = textureLoader.load(TEXTURE_PATH, function(texture) {
         height = 0;
       }
       // Modify the vertex position based on the height value
-      geo.array[i+2] = height * planeSize/2;
+      geo.array[i+2] = height * planeSize/4;
     }
     geometry.attributes.position.needsUpdate = true;
 });
@@ -81,7 +81,7 @@ function spectrogramToTexture(spectrogram) {
   // Create a canvas element
   const canvas = document.createElement('canvas');
   canvas.width = spectrogram.length;
-  canvas.height = spectrogram[0].length;
+  canvas.height = Math.floor(spectrogram[0].length/2) + 1; //mirrored frequencies
 
   // Get the 2D rendering context of the canvas
   const ctx = canvas.getContext('2d');
@@ -91,9 +91,9 @@ function spectrogramToTexture(spectrogram) {
   // Create image data object from the normalized array
   const imageData = ctx.createImageData(canvas.width, canvas.height);
   const data = imageData.data;
-  for (let i = 0; i < normalizedArray.length; i++) {
-    for (let j = 0; j < normalizedArray[i].length; j++) {
-      const value = normalizedArray[i][j];
+  for (let i = 0; i < canvas.height; i++) {
+    for (let j = 0; j < canvas.width; j++) {
+      const value = normalizedArray[j][canvas.height - i];
       const index = (i * canvas.width + j) * 4;
       data[index] = data[index + 1] = data[index + 2] = Math.floor(value * 255);
       data[index + 3] = 255; // Alpha channel
@@ -129,7 +129,7 @@ function textureToHeight(canvas) {
         height = 0;
       }
       // Modify the vertex position based on the height value
-      geo.array[i+2] = height * planeSize/2;
+      geo.array[i+2] = height * planeSize/4;
     }
     geometry.attributes.position.needsUpdate = true;
 }
@@ -240,7 +240,6 @@ function generateShortTimeSpectrogram(audioBuffer, windowSize, hopSize) {
     return Array.from(magnitude);
   });
 
-  // 'spectrogram' now contains the magnitude values arranged as a spectrogram
   return spectrogram;
 }
 
