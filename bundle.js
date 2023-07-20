@@ -8,6 +8,12 @@ const {
   OrbitControls
 } = require('three/examples/jsm/controls/OrbitControls.js');
 const fft = require('fft-js').fft;
+let isPlaying = false;
+const planeSplits = 75;
+const planeSize = 10;
+let songDuration = 0.0;
+const TEXTURE_PATH = "./colorMap.jpg";
+const clock = new THREE.Clock();
 
 // Main Camera and Scene controls
 const scene = new THREE.Scene();
@@ -17,13 +23,9 @@ const controls = new OrbitControls(camera, renderer.domElement);
 camera.position.z = 5;
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-const planeSplits = 75;
-const planeSize = 10;
-const TEXTURE_PATH = "./colorMap.jpg";
-let time = 0;
 let geometry = new THREE.PlaneGeometry(planeSize, planeSize, planeSplits, planeSplits);
 
-// Texture Load Color
+// Load Plane w Texture
 var textureLoader = new THREE.TextureLoader();
 textureLoader.load(TEXTURE_PATH, function (texture) {
   // Create the material and set the color map texture
@@ -63,13 +65,32 @@ var heightMapTexture = textureLoader.load(TEXTURE_PATH, function (texture) {
       height = 0;
     }
     // Modify the vertex position based on the height value
-    geo.array[i + 2] = height * planeSize / 4;
+    geo.array[i + 2] = height;
   }
   geometry.attributes.position.needsUpdate = true;
 });
 heightMapTexture.onerror = function () {
   console.error('Failed to load the height map texture.');
 };
+
+// Load Play Indicator
+const coneHeight = .3;
+const coneGeometry = new THREE.ConeGeometry(coneHeight / 2, coneHeight, 32);
+const coneMaterial = new THREE.MeshBasicMaterial({
+  color: 0xff0000
+});
+const cone = new THREE.Mesh(coneGeometry, coneMaterial);
+const upperCone = new THREE.Mesh(coneGeometry, coneMaterial);
+let conePositionX = -planeSize / 2;
+cone.position.x = upperCone.position.x = conePositionX;
+cone.position.y = -planeSize / 2 - coneHeight / 2;
+upperCone.position.y = planeSize / 2 + coneHeight / 2;
+upperCone.scale.y = -1;
+scene.add(cone);
+scene.add(upperCone);
+
+// TEXTURE MANIPULATION
+
 function saveCanvasAsImage(canvas, filename) {
   // Convert canvas to data URL
   const dataURL = canvas.toDataURL("image/jpeg");
@@ -160,21 +181,8 @@ function normalize2DArray(array) {
   }
   return array;
 }
-function animate() {
-  time += .01;
-  requestAnimationFrame(animate);
-  controls.update();
-  //updateVertices();
-  render();
-}
-function render() {
-  renderer.autoClear = true;
-  // Update main scene
-  renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
-  renderer.render(scene, camera);
-}
 
-//File Drop
+// UI
 var dropzone = document.getElementById('fileDrop');
 window.addEventListener('dragover', function (e) {
   e.preventDefault();
@@ -188,10 +196,25 @@ window.addEventListener('drop', function (e) {
   dropzone.style.backgroundColor = 'transparent';
   const file = e.dataTransfer.files[0];
   if (file.type === 'audio/wav') {
+    //load audio player
+    const audioPlayer = document.getElementById('audioPlayer');
+    const file = e.dataTransfer.files[0];
+    const fileReader = new FileReader();
+    fileReader.onload = event => {
+      const audioBlob = event.target.result;
+      audioPlayer.src = URL.createObjectURL(new Blob([audioBlob], {
+        type: 'audio/wav'
+      }));
+      audioPlayer.addEventListener('ended', audioPlaybackEnded);
+    };
+    fileReader.readAsArrayBuffer(file);
+
+    //load file for spectrogram
     loadWavFile(file, function (audioBuffer) {
       const spectrogram = generateShortTimeSpectrogram(audioBuffer, 2048, 512);
       spectrogramToTexture(spectrogram);
     });
+    isPlaying = false;
   } else {
     console.error('Invalid file format. Please select a WAV file.');
   }
@@ -204,10 +227,39 @@ function loadWavFile(file, callback) {
     const arrayBuffer = e.target.result;
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     audioContext.decodeAudioData(arrayBuffer, function (buffer) {
+      songDuration = buffer.duration;
       callback(buffer);
     });
   };
   reader.readAsArrayBuffer(file);
+}
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') {
+    e.preventDefault();
+    if (songDuration > 0) {
+      toggleAudioPlayback();
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        cone.material.color.set(0x00ff00);
+      } else {
+        cone.material.color.set(0xff0000);
+      }
+    }
+  }
+});
+function toggleAudioPlayback() {
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+  } else {
+    audioPlayer.pause();
+  }
+}
+function audioPlaybackEnded() {
+  //reset cursor
+  isPlaying = false;
+  conePositionX = -planeSize / 2;
+  cone.material.color.set(0xff0000);
+  cone.position.x = upperCone.position.x = conePositionX;
 }
 function generateShortTimeSpectrogram(audioBuffer, windowSize, hopSize) {
   const audioData = audioBuffer.getChannelData(0); // Assuming mono audio
@@ -236,6 +288,33 @@ function generateShortTimeSpectrogram(audioBuffer, windowSize, hopSize) {
     return Array.from(magnitude);
   });
   return spectrogram;
+}
+
+// RENDERING
+function animateConeSlider(deltaTime) {
+  // Update the position of the cone
+  conePositionX += deltaTime * planeSize / songDuration;
+  // If the cone moves off the screen, reset its position ASSUME CALCULATION PERFECT
+  //if (conePositionX > planeSize/2) {
+  //    conePositionX = -planeSize/2;
+  //}
+  // Update the cone's position
+  cone.position.x = upperCone.position.x = conePositionX;
+}
+function animate() {
+  const deltaTime = clock.getDelta();
+  requestAnimationFrame(animate);
+  controls.update();
+  if (isPlaying) {
+    animateConeSlider(deltaTime);
+  }
+  render();
+}
+function render() {
+  renderer.autoClear = true;
+  // Update main scene
+  renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+  renderer.render(scene, camera);
 }
 animate();
 

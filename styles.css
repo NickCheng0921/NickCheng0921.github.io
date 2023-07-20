@@ -12,3 +12,7 @@ body {
   background-color: transparent;
   pointer-events: none;
 }
+
+.hidden {
+  display: none;
+}

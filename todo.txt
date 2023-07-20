@@ -1,0 +1,8 @@
+Add texture mapping between frequency bands
+ - vocals blue, drums green etc
+
+Add loading animation
+
+Add hints for website usage 
+
+Add wave effect during play (toggle)
