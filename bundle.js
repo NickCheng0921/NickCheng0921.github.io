@@ -24,6 +24,8 @@ camera.position.z = 5;
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 let geometry = new THREE.PlaneGeometry(planeSize, planeSize, planeSplits, planeSplits);
+let specGeo = null; //buffer for saved spectrogram geometry
+let progress = 0.0;
 
 // Load Plane w Texture
 var textureLoader = new THREE.TextureLoader();
@@ -38,40 +40,6 @@ textureLoader.load(TEXTURE_PATH, function (texture) {
   // Add the plane mesh to the scene
   scene.add(planeMesh);
 });
-
-// Load Heights through Texture
-var heightMapTexture = new THREE.TextureLoader();
-var heightMapTexture = textureLoader.load(TEXTURE_PATH, function (texture) {
-  //draw to canvas in order to grab pixels
-  const canvas = document.createElement('canvas');
-  canvas.width = texture.image.width;
-  canvas.height = texture.image.height;
-  const context = canvas.getContext('2d');
-  context.drawImage(texture.image, 0, 0);
-  const data = context.getImageData(0, 0, canvas.width, canvas.height);
-
-  // Height map texture has finished loading
-  let geo = geometry.attributes.position;
-  for (let i = 0; i < geo.count * 3; i += 3) {
-    // Get the height value from the texture at the current vertex position
-    var x = (geo.array[i] / planeSize + 0.5) * (texture.image.width - 1);
-    var y = (-geo.array[i + 1] / planeSize + 0.5) * (texture.image.height - 1);
-    var pixelIndex = (Math.floor(y) * texture.image.width + Math.floor(x)) * 4;
-    var r = data.data[pixelIndex] / 255; // Red channel (assuming grayscale)
-    var g = data.data[pixelIndex + 1] / 255; // Green channel (assuming grayscale)
-    var b = data.data[pixelIndex + 2] / 255; // Blue channel (assuming grayscale)
-    var height = (r + g + b) / 3; // Average of the RGB channels
-    if (isNaN(height)) {
-      height = 0;
-    }
-    // Modify the vertex position based on the height value
-    geo.array[i + 2] = height;
-  }
-  geometry.attributes.position.needsUpdate = true;
-});
-heightMapTexture.onerror = function () {
-  console.error('Failed to load the height map texture.');
-};
 
 // Load Play Indicator
 const coneHeight = .3;
@@ -157,6 +125,12 @@ function textureToHeight(canvas) {
     // Modify the vertex position based on the height value
     geo.array[i + 2] = height * planeSize / 4;
   }
+  //deep copy for wave convolution animation
+  specGeo = new THREE.BufferGeometry();
+  const positionAttribute = geometry.getAttribute("position");
+  const positionArray = positionAttribute.array.slice();
+  const newPositionAttribute = new THREE.BufferAttribute(positionArray, positionAttribute.itemSize, positionAttribute.normalized);
+  specGeo.setAttribute("position", newPositionAttribute);
   geometry.attributes.position.needsUpdate = true;
 }
 function normalize2DArray(array) {
@@ -206,8 +180,9 @@ window.addEventListener('drop', function (e) {
         type: 'audio/wav'
       }));
       audioPlayer.addEventListener('ended', audioPlaybackEnded);
-      audioPlayer.addEventListener("timeupdate", correctConeSlider);
+      //audioPlayer.addEventListener("timeupdate", correctConeSlider);
     };
+
     fileReader.readAsArrayBuffer(file);
 
     //load file for spectrogram
@@ -296,12 +271,13 @@ function generateShortTimeSpectrogram(audioBuffer, windowSize, hopSize) {
 function correctConeSlider() {
   const audio = document.getElementById('audioPlayer');
   const progress = audio.currentTime / audio.duration;
-  //cone.position.x = upperCone.position.x = -planeSize/2 + planeSize*progress;
+  cone.position.x = upperCone.position.x = -planeSize / 2 + planeSize * progress;
 }
 
 //move slider based off time spent in track
 function animateConeSlider(deltaTime) {
   conePositionX += deltaTime * planeSize / songDuration;
+  progress = (conePositionX + planeSize / 2) / planeSize;
   // If the cone moves off the screen, reset its position ASSUME CALCULATION PERFECT
   //if (conePositionX > planeSize/2) {
   //    conePositionX = -planeSize/2;
@@ -309,12 +285,21 @@ function animateConeSlider(deltaTime) {
   // Update the cone's position
   cone.position.x = upperCone.position.x = conePositionX;
 }
+function generateWave() {
+  let specGeoPos = specGeo.attributes.position;
+  let geo = geometry.attributes.position;
+  for (let i = 0; i < specGeoPos.count * 3; i += 3) {
+    geo.array[i + 2] = progress * specGeoPos.array[i + 2];
+  }
+  geometry.attributes.position.needsUpdate = true;
+}
 function animate() {
   const deltaTime = clock.getDelta();
   requestAnimationFrame(animate);
   controls.update();
   if (isPlaying) {
     animateConeSlider(deltaTime);
+    generateWave();
   }
   render();
 }
