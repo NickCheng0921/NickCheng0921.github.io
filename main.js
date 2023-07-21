@@ -203,6 +203,7 @@ window.addEventListener('drop', function(e) {
         const audioBlob = event.target.result;
         audioPlayer.src = URL.createObjectURL(new Blob([audioBlob], { type: 'audio/wav' }));
         audioPlayer.addEventListener('ended', audioPlaybackEnded);
+        //audioPlayer.addEventListener("timeupdate", correctConeSlider);
     };
     fileReader.readAsArrayBuffer(file);
 
@@ -296,8 +297,15 @@ function generateShortTimeSpectrogram(audioBuffer, windowSize, hopSize) {
 }
 
 // RENDERING
+//correct slider based on actual track timestamp
+function correctConeSlider() {
+  const audio = document.getElementById('audioPlayer');
+  const progress = (audio.currentTime / audio.duration);
+  cone.position.x = upperCone.position.x = -planeSize/2 + planeSize*progress;
+}
+
+//move slider based off time spent in track
 function animateConeSlider(deltaTime) {
-    // Update the position of the cone
     conePositionX += deltaTime*planeSize/songDuration;
     // If the cone moves off the screen, reset its position ASSUME CALCULATION PERFECT
     //if (conePositionX > planeSize/2) {
