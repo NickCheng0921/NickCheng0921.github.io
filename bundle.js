@@ -236,6 +236,7 @@ function audioPlaybackEnded() {
   conePositionX = -planeSize / 2;
   cone.material.color.set(0xff0000);
   cone.position.x = upperCone.position.x = conePositionX;
+  resetSpectrogramHeight();
 }
 function generateShortTimeSpectrogram(audioBuffer, windowSize, hopSize) {
   const audioData = audioBuffer.getChannelData(0); // Assuming mono audio
@@ -289,7 +290,20 @@ function generateWave() {
   let specGeoPos = specGeo.attributes.position;
   let geo = geometry.attributes.position;
   for (let i = 0; i < specGeoPos.count * 3; i += 3) {
-    geo.array[i + 2] = progress * specGeoPos.array[i + 2];
+    var x = geo.array[i] / planeSize + 0.5;
+    if (Math.abs(progress - x) < 0.05) {
+      geo.array[i + 2] = specGeoPos.array[i + 2];
+    } else {
+      geo.array[i + 2] = 0;
+    }
+  }
+  geometry.attributes.position.needsUpdate = true;
+}
+function resetSpectrogramHeight() {
+  let specGeoPos = specGeo.attributes.position;
+  let geo = geometry.attributes.position;
+  for (let i = 0; i < specGeoPos.count * 3; i += 3) {
+    geo.array[i + 2] = specGeoPos.array[i + 2];
   }
   geometry.attributes.position.needsUpdate = true;
 }
