@@ -12,6 +12,7 @@ let isPlaying = false;
 const planeSplits = 75;
 const planeSize = 10;
 let songDuration = 0.0;
+const waveTailPercentage = 0.05;
 const TEXTURE_PATH = "./colorMap.jpg";
 const clock = new THREE.Clock();
 
@@ -291,8 +292,12 @@ function generateWave() {
   let geo = geometry.attributes.position;
   for (let i = 0; i < specGeoPos.count * 3; i += 3) {
     var x = geo.array[i] / planeSize + 0.5;
-    if (Math.abs(progress - x) < 0.05) {
+    let dist = Math.abs(progress - x) / waveTailPercentage;
+    if (x <= progress) {
+      // normalizes a range to a cos modified to look wavelike
       geo.array[i + 2] = specGeoPos.array[i + 2];
+    } else if (x - progress < waveTailPercentage) {
+      geo.array[i + 2] = specGeoPos.array[i + 2] * (Math.cos(3.1415 * dist) / 2 + 0.5);
     } else {
       geo.array[i + 2] = 0;
     }
