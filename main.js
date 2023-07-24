@@ -7,8 +7,10 @@ const planeSplits = 75;
 const planeSize = 10;
 let songDuration = 0.0;
 const waveTailPercentage = 0.05;
-const TEXTURE_PATH = "./colorMap.jpg";
+const TEXTURE_PATH = "./colorMap.png";
 const clock = new THREE.Clock();
+const pauseColor = 0xff00ff;
+const playColor = 0x00ffff;
 
 // Main Camera and Scene controls
 const scene = new THREE.Scene();
@@ -40,7 +42,7 @@ textureLoader.load(TEXTURE_PATH, function (texture) {
 // Load Play Indicator
 const coneHeight = .3;
 const coneGeometry = new THREE.ConeGeometry(coneHeight/2, coneHeight, 32);
-const coneMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const coneMaterial = new THREE.MeshBasicMaterial({ color: pauseColor });
 const cone = new THREE.Mesh(coneGeometry, coneMaterial);
 const upperCone = new THREE.Mesh(coneGeometry, coneMaterial);
 let conePositionX = -planeSize/2;
@@ -215,10 +217,10 @@ document.addEventListener('keydown', (e) => {
         toggleAudioPlayback();
         isPlaying = !isPlaying;
         if (isPlaying) {
-            cone.material.color.set(0x00ff00);
+            cone.material.color.set(playColor);
         }
         else {
-            cone.material.color.set(0xff0000);
+            cone.material.color.set(pauseColor);
         }
       }
   }
@@ -236,7 +238,7 @@ function audioPlaybackEnded() {
   //reset cursor
   isPlaying = false;
   conePositionX = -planeSize/2;
-  cone.material.color.set(0xff0000);
+  cone.material.color.set(pauseColor);
   cone.position.x = upperCone.position.x = conePositionX;
   resetSpectrogramHeight();
 }
