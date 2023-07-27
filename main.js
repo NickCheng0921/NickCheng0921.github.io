@@ -132,6 +132,7 @@ function textureToHeight(canvas) {
     const newPositionAttribute = new THREE.BufferAttribute(positionArray, positionAttribute.itemSize, positionAttribute.normalized);
     specGeo.setAttribute("position", newPositionAttribute);
     geometry.attributes.position.needsUpdate = true;
+    console.log("DONE TEXTURING");
 }
 
 function normalize2DArray(array) {
@@ -175,6 +176,7 @@ window.addEventListener('drop', function(e) {
 
   const file = e.dataTransfer.files[0];
   if (file.type === 'audio/wav') {
+    console.log("FILE DROPPED");
     //load audio player
     const audioPlayer = document.getElementById('audioPlayer');
     const file = e.dataTransfer.files[0];
