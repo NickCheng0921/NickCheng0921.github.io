@@ -11,6 +11,7 @@ const TEXTURE_PATH = "./colorMap.png";
 const clock = new THREE.Clock();
 const pauseColor = 0xff00ff;
 const playColor = 0x00ffff;
+const cameraTilt = -Math.PI/3;
 
 // Main Camera and Scene controls
 const scene = new THREE.Scene();
@@ -18,7 +19,8 @@ const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.inner
 const renderer = new THREE.WebGLRenderer();
 const controls = new OrbitControls( camera, renderer.domElement );
 
-camera.position.z = 5;
+camera.position.z = 7.5;
+controls.update();
 
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
