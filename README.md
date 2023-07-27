@@ -1,9 +1,7 @@
 # WAVeform Visualizer
-Visualizer for *.wav files, built with Three.js and fft-js.
+Browser visualizer for *.wav files, built with Three.js and fft-js.
 
 ## Demo
-
-Apologies for the gif quality, this was made w/ a screen capture using recordit.
 
 ![Demo Gif](./demo/usage.gif)
 
