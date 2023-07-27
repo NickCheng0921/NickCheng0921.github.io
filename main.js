@@ -11,13 +11,14 @@ const TEXTURE_PATH = "./colorMap.png";
 const clock = new THREE.Clock();
 const pauseColor = 0xff00ff;
 const playColor = 0x00ffff;
-const cameraTilt = -Math.PI/3;
 
 // Main Camera and Scene controls
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 const renderer = new THREE.WebGLRenderer();
 const controls = new OrbitControls( camera, renderer.domElement );
+let windowWidth = window.innerWidth;
+let windowHeight = window.innerHeight;
 
 camera.position.z = 7.5;
 controls.update();
@@ -198,6 +199,19 @@ window.addEventListener('drop', function(e) {
   }
 });
 
+window.addEventListener('resize', onWindowResize);
+function onWindowResize() {
+  windowWidth = window.innerWidth;
+  windowHeight = window.innerHeight;
+
+  // Resize the renderer
+  renderer.setSize(windowWidth, windowHeight);
+
+  // Update the camera's aspect ratio
+  camera.aspect = windowWidth / windowHeight;
+  camera.updateProjectionMatrix();
+}
+
 // Function to load a local WAV file
 function loadWavFile(file, callback) {
   const reader = new FileReader();
@@ -339,7 +353,7 @@ function animate() {
 function render(){
   renderer.autoClear = true;
   // Update main scene
-  renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+  renderer.setViewport(0, 0, windowWidth, windowHeight);
   renderer.render(scene, camera);
 }
 
