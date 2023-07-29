@@ -3,7 +3,7 @@ const { OrbitControls } = require('three/examples/jsm/controls/OrbitControls.js'
 const fft = require('fft-js').fft;
 
 let isPlaying = false;
-const planeSplits = 75;
+const planeSplits = 125;
 const planeSize = 10;
 let songDuration = 0.0;
 const waveTailPercentage = 0.05;
@@ -228,6 +228,30 @@ function loadWavFile(file, callback) {
   reader.readAsArrayBuffer(file);
 }
 
+function loadDemoSong() {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const audioPlayer = document.getElementById('audioPlayer');
+  const audioSource = audioPlayer.querySelector('source');
+  audioPlayer.addEventListener('ended', audioPlaybackEnded);
+  // Fetch the audio file and convert it to an ArrayBuffer
+  fetch(audioSource.src)
+  .then(response => response.arrayBuffer())
+  .then(arrayBuffer => {
+    // Decode the ArrayBuffer to get the AudioBuffer
+    audioContext.decodeAudioData(arrayBuffer, function(buffer) {
+      // Do something with the buffer, e.g., get the duration
+      songDuration = buffer.duration;
+      const spectrogram = generateShortTimeSpectrogram(buffer, 2048, 512);
+      spectrogramToTexture(spectrogram);
+    }, function(error) {
+      console.error('Error decoding audio data:', error);
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching audio file:', error);
+  });
+}
+
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space') {
       e.preventDefault();
@@ -359,4 +383,5 @@ function render(){
   renderer.render(scene, camera);
 }
 
+loadDemoSong();
 animate();
