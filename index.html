@@ -7,16 +7,68 @@
 			body { margin: 0; }
 		</style>
 		<link rel="stylesheet" type="text/css" href="/styles.css">
+		<link rel="stylesheet" type="text/css" href="/volumeSlider.css">
 		<audio controls id="audioPlayer" class="hidden">
 			<source src="./demo.wav" type="audio/wav">
 			Your browser does not support the audio element.
 		</audio>
-		<link rel="icon" href="./wave.ico" type="image/x-icon">
+		<link rel="icon" href="./favicon.ico" type="image/x-icon">
 	</head>
 	<body>
 		<div id="info-icon">?</div>
 		<div id="hint-blurb">Try dragging and dropping a small *.wav file ( < 10 sec) onto the page.
 							<br> Demo track is Head in the Clouds by Ian Kelosky</div>
+		<div class="volume-container" onmouseover="showVolumeSlider()" onmouseout="hideVolumeSlider()" onclick="toggleMute()">
+			<div class="speaker-icon" id="speaker" >&#128266;</div>
+			<input type="range" min="0" max="100" value="100" class="volume-slider" id="myRange" orient="vertical" onclick="stopPropagation(event)">
+		</div>
+		<script>
+			const audioPlayer = document.getElementById("audioPlayer");
+			let volumeSliderOpen = false;
+			let isMuted = false;
+		
+			// Function to show the volume slider when moused over
+			function showVolumeSlider() {
+				if (!volumeSliderOpen) {
+					document.querySelector('.volume-slider').style.bottom = '0';
+					document.querySelector('.volume-container').classList.add('expanded'); // Add the 'expanded' class
+					volumeSliderOpen = true;
+				}
+			}
+		
+			// Function to hide the volume slider when mouse leaves
+			function hideVolumeSlider() {
+				if (volumeSliderOpen) {
+					document.querySelector('.volume-slider').style.bottom = '-110px'; // Slide the slider back up
+					document.querySelector('.volume-container').classList.remove('expanded'); // Remove the 'expanded' class
+					volumeSliderOpen = false;
+				}
+			}
+		
+			// Function to toggle mute/unmute when the speaker icon is clicked
+			function toggleMute() {
+				isMuted = !isMuted;
+				const speakerIcon = document.getElementById('speaker');
+				if (isMuted) {
+					audioPlayer.muted = true;
+					speakerIcon.innerHTML = '&#128263;'; // Change to mute icon &#128263;
+				} else {
+					audioPlayer.muted = false;
+					speakerIcon.innerHTML = '&#128266;'; // Change back to the speaker icon &#128266;
+				}
+			}
+		
+			// Function to stop the click event from propagating to the parent container
+			function stopPropagation(event) {
+				event.stopPropagation();
+			}
+			
+			// Event listener for the slider value change
+			document.getElementById('myRange').addEventListener('input', function () {
+				const sliderValue = this.value;
+				audioPlayer.volume = (1.0*sliderValue/100);
+			}); 
+		  </script>
 		<script type="module" src="bundle.js"></script>
 		<div id="fileDrop"></div>
 	</body>

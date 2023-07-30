@@ -3,6 +3,12 @@ Add texture mapping between frequency bands
 
 Add loading animation
 
-Add hints for website usage 
+Bundle inline UI JS w main code
 
-Add wave effect during play (toggle)
+Fix buggy volume slider
+    - thumb jumps off track
+    - clicking on gray area mutes/unmutes
+
+
+DONE - Add wave effect during play (toggle)
+DONE - Add hints for website usage 

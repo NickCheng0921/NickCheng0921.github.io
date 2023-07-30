@@ -1,0 +1,73 @@
+/* Styling for the main container div */
+.volume-container {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    width: 40px;
+    height: 40px; /* Set the initial height to the height of the speaker icon + padding (e.g., 5px) */
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: height 0.3s; /* Add transition effect for smooth animation */
+}
+
+/* Styling for the speaker icon */
+.speaker-icon {
+    position: absolute;
+    top: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    margin-bottom: 5px; /* Add margin at the bottom of the speaker icon */
+    transition: font-size 0.3s; /* Add transition effect for smooth animation */
+    pointer-events: none; /* Ignore pointer events so that the slider can be clicked */
+}
+
+/* Styling for the vertical range slider */
+.volume-slider {
+    position: absolute;
+    top: 34px; /* Position the slider right below the speaker icon */
+    left: 18px;
+    transform: translateX(-50%);
+    width: 5px; /* Set the width of the slider */
+    height: calc(100% - 45px); /* Set the height of the slider to occupy the remaining space */
+    background-color: #1aabf3; /* Grey background */
+    margin-top: 6px;
+    border-radius: 5px;
+    transition: bottom 0.3s; /* Add transition effect for smooth animation */
+}
+
+/* Styling for the slider handle */
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #e7e4e4;
+    cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #e7e4e4;
+    cursor: pointer;
+}
+
+/* Expanded state for the volume slider */
+.volume-container.expanded {
+    height: 220px; /* Set the height to reveal the vertical range slider */
+}
+
+/* Prevent shrinking of the speaker icon in the expanded state */
+.volume-container.expanded .speaker-icon {
+    font-size: 24px; /* Set the font size to the original size */
+}

@@ -132,7 +132,6 @@ function textureToHeight(canvas) {
     const newPositionAttribute = new THREE.BufferAttribute(positionArray, positionAttribute.itemSize, positionAttribute.normalized);
     specGeo.setAttribute("position", newPositionAttribute);
     geometry.attributes.position.needsUpdate = true;
-    console.log("DONE TEXTURING");
 }
 
 function normalize2DArray(array) {
