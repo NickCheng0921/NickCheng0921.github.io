@@ -176,7 +176,7 @@ window.addEventListener('drop', function (e) {
   dropzone.style.backgroundColor = 'transparent';
   const file = e.dataTransfer.files[0];
   if (file.type === 'audio/wav') {
-    console.log("FILE DROPPED");
+    showLoader();
     //load audio player
     const audioPlayer = document.getElementById('audioPlayer');
     const file = e.dataTransfer.files[0];
@@ -196,6 +196,7 @@ window.addEventListener('drop', function (e) {
     loadWavFile(file, function (audioBuffer) {
       const spectrogram = generateShortTimeSpectrogram(audioBuffer, 2048, 512);
       spectrogramToTexture(spectrogram);
+      hideLoader();
     });
     isPlaying = false;
   } else {
@@ -215,6 +216,14 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
 }
 
+// UI for loading
+function showLoader() {
+  document.getElementById('overlay').style.display = 'flex';
+}
+function hideLoader() {
+  document.getElementById('overlay').style.display = 'none';
+}
+
 // Function to load a local WAV file
 function loadWavFile(file, callback) {
   const reader = new FileReader();
@@ -229,6 +238,7 @@ function loadWavFile(file, callback) {
   reader.readAsArrayBuffer(file);
 }
 function loadDemoSong() {
+  showLoader();
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
   const audioPlayer = document.getElementById('audioPlayer');
   const audioSource = audioPlayer.querySelector('source');
@@ -241,8 +251,10 @@ function loadDemoSong() {
       songDuration = buffer.duration;
       const spectrogram = generateShortTimeSpectrogram(buffer, 2048, 512);
       spectrogramToTexture(spectrogram);
+      hideLoader();
     }, function (error) {
       console.error('Error decoding audio data:', error);
+      hideLoader();
     });
   }).catch(error => {
     console.error('Error fetching audio file:', error);
