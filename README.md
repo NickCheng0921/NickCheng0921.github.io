@@ -1,0 +1,1 @@
+Serve command: bundle exec jekyll serve --livereload
