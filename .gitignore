@@ -1,2 +1,6 @@
 _site/
 .jekyll-cache/
+
+# Python + Projects
+plots/
+__pycache__
