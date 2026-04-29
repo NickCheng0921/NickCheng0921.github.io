@@ -45,6 +45,6 @@ Notice how most of the plot is dark blue/purple? That means we're expected to lo
 
 ![img](/imgs/mc_bj_player17_sweep.gif)
 
-![img](/imgs/mc_bj_player17_500k_sweep.png)
+![img](/imgs/mc_bj_player17_500K_sweep.png)
 
 Much better, the brighter colors (higher values) show that our new strategy doesn't lose as hard as before.
