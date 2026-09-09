@@ -7,7 +7,7 @@ categories:
 
 Meta (in conjunction w/ Stanford + Harvard) released a [paper last week called **ProgramBench**](https://arxiv.org/pdf/2605.03546v1) detailing the state of language models for writing code repos. It consists of the paper, the [github](https://github.com/facebookresearch/programbench) to run the eval, and the [huggingface link](https://huggingface.co/datasets/programbench/ProgramBench-Tests) to download the test blobs.
 
-They defined the task by scraping 200 github repos based off some heuristics, generate tests using a synthetic pipeline, then feed the golden compiled program and the repo's documentation to [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) and have it generate the repo + a build script. The build script + code is then ran against the synthetic TB.
+They defined the task by scraping 200 github repos based off some heuristics, generating tests using a synthetic pipeline, then feeding the golden compiled program and the repo's documentation to [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) and having it generate the repo + a build script. The build script + code is then ran against the synthetic TB.
 
 Notably, they found that no runs resulted in a 100% TB pass although a couple runs came close. I had some thoughts on how this experiment was carried out and wanted to dive into them in this post. 
 
@@ -31,7 +31,7 @@ The authors have provided docker images per task, and run the agent in there w/ 
 
 # Thoughts on Methodology
 
-None of these ideas were created by AI, they occured to me as I read the paper.
+None of these ideas were created/assisted by AI, they occured as I was going through the paper. I agree with a lot of the methodology and I think the work is novel, I just had some points I was interested in.
 
 ### 1 - task formulation
 
@@ -43,7 +43,7 @@ I see the reasoning for it, as we lack a clean specification, but this doesn't s
 
 Due to the scale of the benchmark in comparison to the size of the research team, I see the use of a synthetic pipeline.
 
-However, agents are **spectacularly awful** at writing good integration tests w/o human oversight (my claim from experience) and we can see this in the repo. Cmatrix (one of the tested libs) has very few tests checking the actual animation functionality of the library and a majority of the tests are unit tests checking CLI arg behavior. What tests do exist for animation just check that something happened.
+However, agents can be **pretty awful** at writing good integration tests w/o human oversight and we can see this in the repo. Cmatrix (one of the tested libs) has very few tests checking the actual animation functionality of the library and a majority of the tests are unit tests checking CLI arg behavior. What tests do exist for animation just check that something happened.
 
 An executable that produces an unsatisfactory animation, but handles the CLI args properly would score extremely high on the benchmark (and could even pass it).
 
@@ -55,7 +55,7 @@ Each of the 200 tasks was ran w/ each of the 9 LMs once. LMs are non-determinist
 
 It's standard practice to use pass@k or make multiple runs to capture output variability and I don't see a real reason that wasn't done here.
 
-I could see an argument for cost?, but less LMs or tasks could have been selected and I'm sure that the lab (**Meta "Superintelligence"**) has the budget to perform this run.
+I could see an argument for cost?, but less LMs or tasks could have been selected.
 
 ### 4 - lack of open source models
 
