@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 740" width="1000" height="740" font-family="Times New Roman,Times,serif">
+<rect width="1000" height="740" fill="#ffffff"/>
+
+<text x="500" y="42" font-size="20" text-anchor="middle">Single-Channel Pin Usage</text>
+<text x="500" y="66" font-size="13" fill="#444" text-anchor="middle">underside view &#183; use the two left pins of the 4-pin row and the left pin of the 2-pin pair</text>
+
+<!-- body -->
+<rect x="430" y="150" width="50.4" height="420" fill="#f7f7f7" stroke="#000" stroke-width="1.8"/>
+<line x1="455.2" y1="128" x2="455.2" y2="592" stroke="#000" stroke-width="1" stroke-dasharray="22 5 3 5"/>
+
+<!-- mounting lugs -->
+<g stroke="#000" stroke-width="1.5" fill="none">
+  <circle cx="455.2" cy="232.4" r="8.4"/>
+  <circle cx="455.2" cy="497.5" r="8.4"/>
+</g>
+<text x="474" y="236" font-size="11.5" fill="#888">MP</text>
+<text x="474" y="501" font-size="11.5" fill="#888">MP</text>
+
+<!-- ===== TOP 2-PIN PAIR ===== -->
+<circle cx="434.2" cy="161.8" r="5.6" fill="#000"/>
+<circle cx="462.2" cy="161.8" r="4.6" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
+
+<!-- ===== BOTTOM 4-PIN ROW ===== -->
+<circle cx="434.2" cy="558.2" r="5.6" fill="#000"/>
+<circle cx="448.2" cy="558.2" r="5.6" fill="#000"/>
+<circle cx="462.2" cy="558.2" r="4.6" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
+<circle cx="476.2" cy="558.2" r="4.6" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
+
+<!-- ===== USED-PIN CALLOUTS (left) ===== -->
+<g stroke="#000" stroke-width="1" fill="none">
+  <path d="M428 158 L340 108 L286 108"/>
+  <path d="M428 562 L340 616 L286 616"/>
+  <path d="M446 564 L400 690 L286 690"/>
+</g>
+<text x="280" y="104" font-size="16" text-anchor="end">GND</text>
+<text x="280" y="124" font-size="12" fill="#666" text-anchor="end">track end, 2-pin side</text>
+
+<text x="280" y="612" font-size="16" text-anchor="end">VDD</text>
+<text x="280" y="632" font-size="12" fill="#666" text-anchor="end">track end, 4-pin side</text>
+
+<text x="280" y="686" font-size="16" text-anchor="end">WIPER</text>
+<text x="280" y="706" font-size="12" fill="#666" text-anchor="end">V<tspan font-size="9" dy="3">out</tspan></text>
+
+<!-- ===== UNUSED-PIN CALLOUTS (right) ===== -->
+<g stroke="#999" stroke-width="0.9" fill="none">
+  <path d="M467 158 L560 112 L604 112"/>
+  <path d="M466 562 L560 616 L604 616"/>
+  <path d="M480 562 L580 660 L604 660"/>
+</g>
+<text x="610" y="117" font-size="13" fill="#999">n/c &#8212; gang B end</text>
+<text x="610" y="621" font-size="13" fill="#999">n/c &#8212; gang B wiper</text>
+<text x="610" y="665" font-size="13" fill="#999">n/c &#8212; gang B end</text>
+
+<!-- ===== TRAVEL ANNOTATION ===== -->
+<line x1="700" y1="240" x2="700" y2="500" stroke="#000" stroke-width="1" stroke-dasharray="6 5"/>
+<text x="716" y="250" font-size="13" fill="#444">knob toward this end</text>
+<text x="716" y="270" font-size="13" fill="#444">&#8594; V<tspan font-size="10" dy="3">out</tspan><tspan font-size="13" dy="-3"> = 0 V</tspan></text>
+<text x="716" y="478" font-size="13" fill="#444">knob toward this end</text>
+<text x="716" y="498" font-size="13" fill="#444">&#8594; V<tspan font-size="10" dy="3">out</tspan><tspan font-size="13" dy="-3"> = VDD</tspan></text>
+
+<text x="500" y="732" font-size="12.5" fill="#666" text-anchor="middle">Mounting lugs unconnected. Swap VDD and GND to reverse the direction.</text>
+</svg>

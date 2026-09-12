@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400" font-family="Times New Roman,Times,serif">
+<rect width="1000" height="400" fill="#ffffff"/>
+<defs>
+  <marker id="ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+    <path d="M0,2 L10,5 L0,8 z" fill="#000"/>
+  </marker>
+</defs>
+
+<text x="500" y="40" font-size="19" text-anchor="middle">Vendor Mounting Hole Dimensions</text>
+<text x="500" y="62" font-size="13" fill="#444" text-anchor="middle">&#23433;&#35013;&#23380;&#20301;&#22270; &#183; dimensions in mm</text>
+
+<!-- horizontal centerline -->
+<line x1="90" y1="200" x2="930" y2="200" stroke="#000" stroke-width="1" stroke-dasharray="26 5 4 5"/>
+<!-- centre tick -->
+<line x1="500" y1="160" x2="500" y2="240" stroke="#000" stroke-width="1" stroke-dasharray="26 5 4 5"/>
+
+<!-- ===== LEFT CLUSTER: 4 holes ===== -->
+<g stroke="#000" stroke-width="1.6" fill="none">
+  <circle cx="180" cy="166.8" r="4.4"/>
+  <circle cx="180" cy="188.9" r="4.4"/>
+  <circle cx="180" cy="211.1" r="4.4"/>
+  <circle cx="180" cy="233.2" r="4.4"/>
+</g>
+<g font-size="14">
+  <text x="196" y="171">2</text>
+  <text x="196" y="193">1</text>
+  <text x="196" y="215">2&#8242;</text>
+  <text x="196" y="237">1&#8242;</text>
+</g>
+
+<!-- ===== RIGHT PAIR: 2 holes ===== -->
+<g stroke="#000" stroke-width="1.6" fill="none">
+  <circle cx="800" cy="177.9" r="4.4"/>
+  <circle cx="800" cy="222.1" r="4.4"/>
+</g>
+<g font-size="14">
+  <text x="778" y="172" text-anchor="end">3</text>
+  <text x="778" y="237" text-anchor="end">3&#8242;</text>
+</g>
+
+<!-- ===== LEFT VERTICAL DIMS ===== -->
+<g stroke="#000" stroke-width="0.9">
+  <line x1="172" y1="166.8" x2="88" y2="166.8"/>
+  <line x1="172" y1="233.2" x2="88" y2="233.2"/>
+  <line x1="172" y1="188.9" x2="118" y2="188.9"/>
+  <line x1="172" y1="211.1" x2="118" y2="211.1"/>
+  <line x1="96" y1="166.8" x2="96" y2="233.2" marker-start="url(#ar)" marker-end="url(#ar)"/>
+  <line x1="126" y1="188.9" x2="126" y2="211.1" marker-start="url(#ar)" marker-end="url(#ar)"/>
+</g>
+<g font-size="15">
+  <g transform="rotate(-90 88 200)"><text x="88" y="84" text-anchor="middle">7.5<tspan font-size="11" dy="-5">&#177;0.1</tspan></text></g>
+  <g transform="rotate(-90 118 200)"><text x="118" y="114" text-anchor="middle">2.5<tspan font-size="11" dy="-5">&#177;0.1</tspan></text></g>
+</g>
+
+<!-- ===== RIGHT VERTICAL DIM ===== -->
+<g stroke="#000" stroke-width="0.9">
+  <line x1="808" y1="177.9" x2="900" y2="177.9"/>
+  <line x1="808" y1="222.1" x2="900" y2="222.1"/>
+  <line x1="892" y1="177.9" x2="892" y2="222.1" marker-start="url(#ar)" marker-end="url(#ar)"/>
+</g>
+<text x="902" y="195" font-size="15">5.0<tspan font-size="11" dy="-5">&#177;0.1</tspan></text>
+
+<!-- ===== HOLE CALLOUT ===== -->
+<g stroke="#000" stroke-width="0.9" fill="none">
+  <path d="M181.5 237.5 L215 280 L268 280"/>
+</g>
+<text x="272" y="285" font-size="15">8&#8722;&#8960;1<tspan font-size="11" dy="-6">+0.2</tspan><tspan font-size="11" dy="12" x="316">&#160;0</tspan></text>
+
+<!-- ===== OVERALL ===== -->
+<g stroke="#000" stroke-width="0.9">
+  <line x1="180" y1="242" x2="180" y2="355"/>
+  <line x1="800" y1="232" x2="800" y2="355"/>
+  <line x1="180" y1="343" x2="800" y2="343" marker-start="url(#ar)" marker-end="url(#ar)"/>
+</g>
+<text x="490" y="337" font-size="15" text-anchor="middle">70<tspan font-size="11" dy="-5">&#177;0.1</tspan></text>
+</svg>

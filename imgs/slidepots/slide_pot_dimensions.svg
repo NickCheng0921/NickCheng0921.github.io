@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 460" width="1000" height="460" font-family="Times New Roman,Times,serif">
+<rect width="1000" height="460" fill="#ffffff"/>
+<defs>
+  <marker id="ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+    <path d="M0,2 L10,5 L0,8 z" fill="#000"/>
+  </marker>
+</defs>
+
+<text x="500" y="44" font-size="19" text-anchor="middle">My Mounting Hole Dimensions</text>
+<text x="500" y="66" font-size="13" fill="#444" text-anchor="middle">dual-gang slide potentiometer &#183; dimensions in mm</text>
+
+<!-- horizontal centerline -->
+<line x1="90" y1="240" x2="930" y2="240" stroke="#000" stroke-width="1" stroke-dasharray="26 5 4 5"/>
+
+<!-- ===== LEFT CLUSTER: 4 holes, 2.5 pitch, 7.5 span ===== -->
+<g stroke="#000" stroke-width="1.6" fill="none">
+  <circle cx="180" cy="206.8" r="4.4"/>
+  <circle cx="180" cy="228.9" r="4.4"/>
+  <circle cx="180" cy="251.1" r="4.4"/>
+  <circle cx="180" cy="273.2" r="4.4"/>
+</g>
+<g font-size="14">
+  <text x="196" y="211">2</text>
+  <text x="196" y="233">1</text>
+  <text x="196" y="255">2&#8242;</text>
+  <text x="196" y="277">1&#8242;</text>
+</g>
+
+<!-- ===== MOUNTING LUGS (2x on centerline) ===== -->
+<g stroke="#000" stroke-width="1.6" fill="none">
+  <circle cx="275" cy="240" r="8.8"/>
+  <circle cx="689.5" cy="240" r="8.8"/>
+  <line x1="275" y1="218" x2="275" y2="262" stroke-width="1" stroke-dasharray="14 4 3 4"/>
+  <line x1="689.5" y1="218" x2="689.5" y2="262" stroke-width="1" stroke-dasharray="14 4 3 4"/>
+</g>
+<text x="275" y="212" font-size="13" text-anchor="middle">MP</text>
+<text x="689.5" y="212" font-size="13" text-anchor="middle">MP</text>
+
+<!-- ===== RIGHT PAIR: 2 holes, 5.0 pitch ===== -->
+<g stroke="#000" stroke-width="1.6" fill="none">
+  <circle cx="800" cy="217.9" r="4.4"/>
+  <circle cx="800" cy="262.1" r="4.4"/>
+</g>
+<g font-size="14">
+  <text x="778" y="212" text-anchor="end">3</text>
+  <text x="778" y="277" text-anchor="end">3&#8242;</text>
+</g>
+
+<!-- ===== LEFT VERTICAL DIMS ===== -->
+<g stroke="#000" stroke-width="0.9">
+  <line x1="172" y1="206.8" x2="88" y2="206.8"/>
+  <line x1="172" y1="273.2" x2="88" y2="273.2"/>
+  <line x1="172" y1="228.9" x2="118" y2="228.9"/>
+  <line x1="172" y1="251.1" x2="118" y2="251.1"/>
+  <line x1="96" y1="206.8" x2="96" y2="273.2" marker-start="url(#ar)" marker-end="url(#ar)"/>
+  <!-- 2.5 chain: full run with ticks at every hole, arrows outside -->
+  <line x1="126" y1="206.8" x2="126" y2="273.2"/>
+  <line x1="121" y1="211.8" x2="131" y2="201.8"/>
+  <line x1="121" y1="233.9" x2="131" y2="223.9"/>
+  <line x1="121" y1="256.1" x2="131" y2="246.1"/>
+  <line x1="121" y1="278.2" x2="131" y2="268.2"/>
+  <line x1="126" y1="188" x2="126" y2="206.8" marker-end="url(#ar)"/>
+  <line x1="126" y1="292" x2="126" y2="273.2" marker-end="url(#ar)"/>
+</g>
+<g font-size="15">
+  <g transform="rotate(-90 88 240)"><text x="88" y="84" text-anchor="middle">7.5<tspan font-size="11" dy="-5">&#177;0.1</tspan></text></g>
+  <g transform="rotate(-90 118 240)"><text x="118" y="114" text-anchor="middle">3&#215;2.5<tspan font-size="11" dy="-5">&#177;0.1</tspan></text></g>
+</g>
+
+<!-- ===== RIGHT VERTICAL DIM 5.0 ===== -->
+<g stroke="#000" stroke-width="0.9">
+  <line x1="808" y1="217.9" x2="900" y2="217.9"/>
+  <line x1="808" y1="262.1" x2="900" y2="262.1"/>
+  <line x1="892" y1="217.9" x2="892" y2="262.1" marker-start="url(#ar)" marker-end="url(#ar)"/>
+</g>
+<text x="902" y="235" font-size="15">5.0<tspan font-size="11" dy="-5">&#177;0.1</tspan></text>
+
+<!-- ===== CALLOUTS ===== -->
+<g stroke="#000" stroke-width="0.9" fill="none">
+  <path d="M181.5 277.5 L205 300 L258 300"/>
+  <path d="M281.5 233.5 L330 178 L398 178"/>
+</g>
+<text x="262" y="305" font-size="15">6&#8722;&#8960;1<tspan font-size="11" dy="-6">+0.2</tspan><tspan font-size="11" dy="12" x="306">&#8722;0</tspan></text>
+<text x="402" y="183" font-size="15">2&#8722;&#8960;2<tspan font-size="11" dy="-6">+0.2</tspan><tspan font-size="11" dy="12" x="446">&#8722;0</tspan></text>
+
+<!-- ===== CHAIN DIMS ===== -->
+<g stroke="#000" stroke-width="0.9">
+  <line x1="180" y1="282" x2="180" y2="415"/>
+  <line x1="275" y1="252" x2="275" y2="360"/>
+  <line x1="689.5" y1="252" x2="689.5" y2="360"/>
+  <line x1="800" y1="272" x2="800" y2="415"/>
+  <line x1="180" y1="348" x2="275" y2="348" marker-start="url(#ar)" marker-end="url(#ar)"/>
+  <line x1="275" y1="348" x2="689.5" y2="348" marker-start="url(#ar)" marker-end="url(#ar)"/>
+  <line x1="689.5" y1="348" x2="800" y2="348" marker-start="url(#ar)" marker-end="url(#ar)"/>
+  <line x1="180" y1="403" x2="800" y2="403" marker-start="url(#ar)" marker-end="url(#ar)"/>
+</g>
+<g font-size="15" text-anchor="middle">
+  <text x="227" y="342">10.85</text>
+  <text x="482" y="342">47.33</text>
+  <text x="745" y="342">12.62</text>
+  <text x="490" y="397">70.8<tspan font-size="11" dy="-5">&#177;0.1</tspan></text>
+</g>
+</svg>
