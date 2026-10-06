@@ -9,6 +9,7 @@ List will be updated as I attend more conferences :)
 
 ## 2026
 - **SNUG** - [Synopsys User Group](https://www.synopsys.com/community/snug/snug-silicon-valley.html)
+- **Coreweave** - [Fully Connected 2026](https://www.coreweave.com/fully-connected-2026)
 
 ## 2025
 - **ICLAD** - [International Conference on LLM-Aided Design](https://iclad.ai/lad25-home-page)
